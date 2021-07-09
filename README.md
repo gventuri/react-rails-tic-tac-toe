@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a very simple multiplayer TicTacToe project created with ReactJS and Ruby on Rails.
 
-Things you may want to cover:
+## SETUP
 
-* Ruby version
+To setup to project, follow the following steps:
 
-* System dependencies
+- Run `git clone git@github.com:gventuri/react-rails-tic-tac-toe.git` to clone the repo to your local machine.
+- Run `cd react-rails-tic-tac-toe` to go to the project folder.
+- Run `rails db:create` to setup the db.
 
-* Configuration
+## RUN
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+To run the project, just run `rails s`. It will start your project on http://localhost:3000
