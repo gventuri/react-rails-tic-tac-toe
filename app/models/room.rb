@@ -1,4 +1,7 @@
 class Room < ApplicationRecord
+    include FriendlyId
+    friendly_id :slug, use: :slugged
+
     validates :slug, presence: true, uniqueness: true
     validates :inviter_code, presence: true
 

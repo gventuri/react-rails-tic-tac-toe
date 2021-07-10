@@ -1,6 +1,7 @@
 class RoomsController < ApplicationController
-  # GET /rooms/:id
+  # GET /rooms/:slug
   def show
+    @room = Room.friendly.find(params[:id])
   end
   
   # POST /rooms or /rooms.json

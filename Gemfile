@@ -27,6 +27,8 @@ gem 'react-rails'
 gem 'fabrication'
 # Use awesome_print for debugging
 gem 'awesome_print'
+# Use friendly_id to allow to use slugs in the url
+gem 'friendly_id', '~> 5.4.0'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
