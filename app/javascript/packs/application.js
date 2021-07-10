@@ -6,6 +6,7 @@
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
+import setupCSRFToken from "./setupCSRFToken";
 import "channels"
 
 Rails.start()
@@ -15,3 +16,6 @@ ActiveStorage.start()
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
+
+// CSRF Token
+setupCSRFToken()
