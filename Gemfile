@@ -25,6 +25,8 @@ gem 'jbuilder', '~> 2.7'
 gem 'react-rails'
 # Use fabricators for testing
 gem 'fabrication'
+# Use awesome_print for debugging
+gem 'awesome_print'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
