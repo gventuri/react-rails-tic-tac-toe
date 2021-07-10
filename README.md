@@ -13,3 +13,8 @@ To setup to project, follow the following steps:
 ## RUN
 
 To run the project, just run `rails s`. It will start your project on http://localhost:3000
+
+## TEST
+
+- To test the backend: `rails test`.
+- To test the frontent: `yarn test`.
