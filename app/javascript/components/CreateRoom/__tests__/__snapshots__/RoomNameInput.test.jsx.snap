@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshots 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    className="form-label"
+    htmlFor="roomName"
+  >
+    Enter the room name
+  </label>
+  <input
+    className="form-control"
+    id="roomName"
+    name="roomName"
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    placeholder="Enter room name"
+    type="text"
+    value="my-awesome-match"
+  />
+  <small
+    className="text-muted form-text"
+  >
+    Rooms should contain only alphanumeric characters and "-" (0-9, a-Z, -)
+  </small>
+  <div
+    className="invalid-feedback"
+  />
+</div>
+`;

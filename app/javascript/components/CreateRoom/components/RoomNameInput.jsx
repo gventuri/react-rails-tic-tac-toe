@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Form } from "react-bootstrap";
 
 const RoomNameInput = ({ value, onChange, validate, isValid, error }) => (
-  <Form.Group>
+  <Form.Group controlId="roomName">
     <Form.Label>Enter the room name</Form.Label>
     <Form.Control
       type="text"

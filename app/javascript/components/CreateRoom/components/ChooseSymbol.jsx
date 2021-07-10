@@ -7,7 +7,7 @@ const ChooseSymbol = ({ isSelectedChoice, onChange }) => {
   const CHOOSE_OPTIONS = ["x", "o"];
 
   return (
-    <Form.Group>
+    <Form.Group controlId="chooseSymbol">
       <Form.Label>Choose your symbol</Form.Label>
       <Row>
         {CHOOSE_OPTIONS.map((choice) => (
@@ -20,6 +20,7 @@ const ChooseSymbol = ({ isSelectedChoice, onChange }) => {
             >
               <Card.Body className="text-center">
                 <Image
+                  title={`Option: ${choice}`}
                   src={`/assets/choices/${choice}.png`}
                   width="100"
                   height="100"
