@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react";
-import { Form, Row, Col, Button, Card, Image } from "react-bootstrap";
+import { Form, Row, Col, Button, Card, Image, Alert } from "react-bootstrap";
 import classNames from "classnames";
 import randomstring from "randomstring";
+import axios from "axios";
 import "./style.scss";
 
 const CreateRoom = () => {
@@ -41,6 +42,10 @@ const CreateRoom = () => {
     updateFormData({ ...formData, selectedChoice: newValue });
   };
 
+  const getOrCreateUserToken = () => "first-random-player";
+
+  const inviterStarts = () => formData.selectedChoice === "x";
+
   const submitForm = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -50,13 +55,26 @@ const CreateRoom = () => {
     const validation = validate();
     if (!validation) return;
 
-    alert("Submitted");
+    axios
+      .post("/rooms", {
+        slug: formData.roomName,
+        inviter_code: getOrCreateUserToken(),
+        inviter_starts: inviterStarts(),
+      })
+      .then((response) => {
+        window.location.href = response.headers.location;
+      })
+      .catch((error) => {
+        updateErrors({ form: error.response.data.error });
+      });
   };
 
   return (
     <>
       <h1>Welcome to TicTacToe!</h1>
       <Form onSubmit={submitForm}>
+        {!isValid("form") && <Alert variant="danger">{errors.form}</Alert>}
+
         <Form.Group>
           <Form.Label>Enter the room name</Form.Label>
           <Form.Control
@@ -88,7 +106,7 @@ const CreateRoom = () => {
                   className={classNames("card-choice", {
                     selected: isSelectedChoice(choice),
                   })}
-                  onClick={(e) => updateSelectedChoice(choice)}
+                  onClick={() => updateSelectedChoice(choice)}
                 >
                   <Card.Body className="text-center">
                     <Image
