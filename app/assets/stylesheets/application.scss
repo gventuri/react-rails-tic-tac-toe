@@ -13,3 +13,28 @@
  *= require_tree .
  *= require_self
  */
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+@mixin with-shadow {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+body {
+  background-color: #f7f2f2;
+}
+
+.navbar {
+  background-color: #fff;
+  @include with-shadow();
+}
+
+.container {
+  max-width: 90%;
+  width: 600px;
+  margin-top: 70px;
+
+  .card {
+    border: none;
+    @include with-shadow();
+  }
+}
