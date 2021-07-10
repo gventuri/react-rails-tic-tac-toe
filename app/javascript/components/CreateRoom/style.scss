@@ -1,0 +1,15 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+.card.card-choice {
+  transition: all linear 100ms;
+  cursor: pointer;
+
+  &.selected {
+    border: 1px solid $blue;
+    transform: scale(1.05);
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
