@@ -20,7 +20,7 @@
 }
 
 body {
-  background-color: #f7f2f2;
+  background-color: #f7f2f2 !important;
 }
 
 .navbar {
@@ -28,9 +28,9 @@ body {
   @include with-shadow();
 }
 
-.container {
-  max-width: 90%;
-  width: 600px;
+main.container {
+  max-width: 90% !important;
+  width: 600px !important;
   margin-top: 70px;
 
   .card {
