@@ -23,6 +23,8 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bcrypt', '~> 3.1.7'
 # Use react-rails
 gem 'react-rails'
+# Use fabricators for testing
+gem 'fabrication'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
