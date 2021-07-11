@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import randomstring from "randomstring";
 import axios from "axios";
+import UserToken from "../../helpers/UserToken";
 import "./style.scss";
 
 // Components
@@ -42,8 +43,6 @@ const CreateRoom = () => {
     updateFormData({ ...formData, selectedChoice: newValue });
   };
 
-  const getOrCreateUserToken = () => "first-random-player";
-
   const inviterStarts = () => formData.selectedChoice === "x";
 
   const submitForm = (e) => {
@@ -58,7 +57,7 @@ const CreateRoom = () => {
     axios
       .post("/rooms", {
         slug: formData.roomName,
-        inviter_code: getOrCreateUserToken(),
+        inviter_code: UserToken.findOrCreate(),
         inviter_starts: inviterStarts(),
       })
       .then((response) => {
