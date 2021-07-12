@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import axios from "axios";
+import UserToken from "../../../helpers/UserToken";
 
 const Cell = ({ symbol, onChange }) => (
   <div className="col col-4 p-2">
@@ -29,11 +32,17 @@ Cell.defaultProps = {
 
 const Board = ({ defaultCells }) => {
   const [cells, setCells] = useState(defaultCells);
+  const { roomId } = useParams();
 
   const updateCell = (key, value) => {
     setCells({
       ...cells,
       [key]: value,
+    });
+
+    axios.post(`/rooms/${roomId}/moves`, {
+      player_code: UserToken.findOrCreate(),
+      cell_id: key,
     });
   };
 

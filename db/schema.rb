@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_10_140241) do
+ActiveRecord::Schema.define(version: 2021_07_12_223550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 2021_07_10_140241) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "moves", force: :cascade do |t|
+    t.integer "cell_id", null: false
+    t.string "player_code", null: false
+    t.bigint "room_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_code", "cell_id", "room_id"], name: "index_moves_on_player_code_and_cell_id_and_room_id", unique: true
+    t.index ["room_id"], name: "index_moves_on_room_id"
   end
 
   create_table "rooms", force: :cascade do |t|
