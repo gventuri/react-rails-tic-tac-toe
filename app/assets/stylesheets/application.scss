@@ -38,3 +38,7 @@ main.container {
     @include with-shadow();
   }
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
