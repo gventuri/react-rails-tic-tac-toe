@@ -8,7 +8,7 @@ class RoomsController < ApplicationController
   def create
     @room = Room.create!(create_params)
 
-    render json: @room, status: :ok, location: @room
+    render json: @room, status: :ok, location: room_path(@room)
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :bad_request
   end

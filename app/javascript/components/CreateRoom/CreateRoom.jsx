@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import randomstring from "randomstring";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import UserToken from "../../helpers/UserToken";
 import "./style.scss";
 
@@ -18,6 +19,7 @@ const CreateRoom = () => {
   const [errors, updateErrors] = useState({});
   const isSelectedChoice = (choice) => formData.selectedChoice === choice;
   const isValid = (field) => !submitted || !errors[field];
+  const history = useHistory();
 
   // Checks if the form is valid and ready to be submitted
   // Returns a boolean (true if the form is valid, otherwise false)
@@ -61,7 +63,7 @@ const CreateRoom = () => {
         inviter_starts: inviterStarts(),
       })
       .then((response) => {
-        window.location.href = response.headers.location;
+        history.push(response.headers.location);
       })
       .catch((error) => {
         updateErrors({ form: error.response.data.error });
