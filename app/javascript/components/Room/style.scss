@@ -1,0 +1,22 @@
+.row {
+  .col {
+    .cell {
+      border-radius: 10px;
+      border: 1px solid #999;
+      background-color: #eee;
+      width: 100%;
+      padding-top: 100%; /* 1:1 Aspect Ratio */
+      position: relative;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      &.cell-x {
+        background-image: url("/assets/choices/x.png");
+      }
+
+      &.cell-o {
+        background-image: url("/assets/choices/o.png");
+      }
+    }
+  }
+}
