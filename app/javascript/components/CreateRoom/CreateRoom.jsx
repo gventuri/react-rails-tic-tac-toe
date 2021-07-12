@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import randomstring from "randomstring";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import UserToken from "../../helpers/UserToken";
 import "./style.scss";
@@ -9,6 +8,9 @@ import "./style.scss";
 // Components
 import RoomNameInput from "./components/RoomNameInput";
 import ChooseSymbol from "./components/ChooseSymbol";
+
+// Models
+import Room from "../../models/Room";
 
 const CreateRoom = () => {
   const [formData, updateFormData] = useState({
@@ -56,12 +58,11 @@ const CreateRoom = () => {
     const validation = validate();
     if (!validation) return;
 
-    axios
-      .post("/rooms", {
-        slug: formData.roomName,
-        inviter_code: UserToken.findOrCreate(),
-        inviter_starts: inviterStarts(),
-      })
+    Room.create({
+      slug: formData.roomName,
+      inviterCode: UserToken.findOrCreate(),
+      inviterStarts: inviterStarts(),
+    })
       .then((response) => {
         history.push(response.headers.location);
       })

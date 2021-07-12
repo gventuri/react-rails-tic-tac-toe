@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import axios from "axios";
 import UserToken from "../../../helpers/UserToken";
+
+// Models
+import Move from "../../../models/Move";
 
 const Cell = ({ symbol, onChange }) => (
   <div className="col col-4 p-2">
@@ -40,9 +42,10 @@ const Board = ({ defaultCells }) => {
       [key]: value,
     });
 
-    axios.post(`/rooms/${roomId}/moves`, {
-      player_code: UserToken.findOrCreate(),
-      cell_id: key,
+    Move.create({
+      roomId,
+      playerCode: UserToken.findOrCreate(),
+      cellId: key,
     });
   };
 
