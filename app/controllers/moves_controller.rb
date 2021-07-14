@@ -12,7 +12,7 @@ class MovesController < ApplicationController
 
   private
     def set_room
-      ap @room = Room.friendly.find(params[:room_id])
+      @room = Room.friendly.find(params[:room_id])
     end
 
     # Only allow a list of trusted parameters through.
