@@ -80,4 +80,5 @@ Board.defaultProps = {
   },
 };
 
+export { Cell };
 export default Board;

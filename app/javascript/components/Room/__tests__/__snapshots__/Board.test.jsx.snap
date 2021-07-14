@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshots 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col col-4 p-2"
+  >
+    <div
+      className="cell"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    />
+  </div>
+  <div
+    className="col col-4 p-2"
+  >
+    <div
+      className="cell"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    />
+  </div>
+  <div
+    className="col col-4 p-2"
+  >
+    <div
+      className="cell"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    />
+  </div>
+  <div
+    className="col col-4 p-2"
+  >
+    <div
+      className="cell"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    />
+  </div>
+  <div
+    className="col col-4 p-2"
+  >
+    <div
+      className="cell"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    />
+  </div>
+  <div
+    className="col col-4 p-2"
+  >
+    <div
+      className="cell"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    />
+  </div>
+  <div
+    className="col col-4 p-2"
+  >
+    <div
+      className="cell"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    />
+  </div>
+  <div
+    className="col col-4 p-2"
+  >
+    <div
+      className="cell"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    />
+  </div>
+  <div
+    className="col col-4 p-2"
+  >
+    <div
+      className="cell"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    />
+  </div>
+</div>
+`;
