@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
@@ -48,6 +48,20 @@ const Board = ({ defaultCells }) => {
       cellId: key,
     });
   };
+
+  useEffect(() => {
+    Move.get({ roomId }).then((moves) => {
+      const newCells = {};
+      moves.forEach((move) => {
+        newCells[move.cell_id] = move.symbol;
+      });
+
+      setCells({
+        ...cells,
+        ...newCells,
+      });
+    });
+  }, []);
 
   return (
     <div className="row">

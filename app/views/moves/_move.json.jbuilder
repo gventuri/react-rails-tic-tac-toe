@@ -1,0 +1,1 @@
+json.(move, :cell_id, :player_code, :symbol)

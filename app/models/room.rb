@@ -14,4 +14,9 @@ class Room < ApplicationRecord
     def challenger_pick
         inviter_starts? ? 'o' : 'x'
     end
+
+    def symbol_for_player(player_code)
+        return inviter_pick if player_code == inviter_code
+        challenger_pick
+    end
 end

@@ -1,6 +1,13 @@
 require "test_helper"
 
 class MovesControllerTest < ActionDispatch::IntegrationTest
+  test "should load all moves" do
+    room = Fabricate(:room)
+
+    get room_moves_url(room), as: :json
+    assert_response :success, room.moves
+  end
+
   test "should create move" do
     room = Fabricate(:room)
 

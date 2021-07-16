@@ -1,0 +1,1 @@
+json.moves @moves, partial: 'moves/move', as: :move

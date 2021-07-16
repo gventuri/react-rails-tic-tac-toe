@@ -1,5 +1,10 @@
 class MovesController < ApplicationController
-  before_action :set_room, only: [:create]
+  before_action :set_room, only: [:index, :create]
+
+  # GET /rooms/:slug/moves or /rooms/:slug/moves.json
+  def index
+    @moves = @room.moves
+  end
 
   # POST /rooms/:slug/moves or /rooms/:slug/moves.json
   def create
