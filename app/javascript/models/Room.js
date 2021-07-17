@@ -8,6 +8,14 @@ class Room {
       inviter_starts: inviterStarts,
     });
   }
+
+  static join({ slug, challengerCode }) {
+    return axios
+      .post(`/rooms/${slug}/join`, {
+        challenger_code: challengerCode,
+      })
+      .then((res) => res.data);
+  }
 }
 
 export default Room;

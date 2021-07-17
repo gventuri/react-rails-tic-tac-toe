@@ -1,16 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import { ActionCableConsumer } from "react-actioncable-provider";
-import { Spinner } from "react-bootstrap";
+import { Spinner, Alert } from "react-bootstrap";
+
 import "./style.scss";
 
 // Components
 import Board from "./components/Board";
 import RoomUrlSharer from "./components/RoomUrlSharer";
+import UserToken from "../../helpers/UserToken";
+
+// Models
+import RoomModel from "../../models/Room";
 
 const CHANNEL_NAME = "MovesChannel";
 
+const RoomFull = () => (
+  <>
+    <Alert variant="danger">
+      The room is full. <Link to="/">Go back</Link>
+    </Alert>
+  </>
+);
+
+const Connecting = () => (
+  <div className="text-center my-5">
+    <Spinner animation="border" />
+  </div>
+);
+
 const Room = () => {
+  const { roomId } = useParams();
+  const [authenticated, setAuthenticated] = useState();
+  const [playerSymbol, setPlayerSymbol] = useState("x");
   const [connected, setConnected] = useState(false);
+
+  useEffect(() => {
+    RoomModel.join({ slug: roomId, challengerCode: UserToken.findOrCreate() })
+      .then((res) => {
+        setAuthenticated(true);
+        setPlayerSymbol(res.symbol);
+      })
+      .catch(() => {
+        setAuthenticated(false);
+      });
+  }, []);
+
+  const isNotAuthenticated = () => authenticated === false;
+  const isConnected = () => authenticated === true && connected;
 
   return (
     <>
@@ -22,12 +59,12 @@ const Room = () => {
 
       <RoomUrlSharer />
 
-      {connected ? (
-        <Board />
+      {isConnected() ? (
+        <Board playerSymbol={playerSymbol} />
+      ) : isNotAuthenticated() ? (
+        <RoomFull />
       ) : (
-        <div className="text-center my-5">
-          <Spinner animation="border" />
-        </div>
+        <Connecting />
       )}
     </>
   );

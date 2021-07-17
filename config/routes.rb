@@ -3,5 +3,9 @@ Rails.application.routes.draw do
 
   resources :rooms, only: [:show, :create] do
     resources :moves, only: [:index, :create]
+
+    post 'join'
   end
+
+  mount ActionCable.server => '/cable'
 end

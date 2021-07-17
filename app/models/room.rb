@@ -16,7 +16,16 @@ class Room < ApplicationRecord
     end
 
     def symbol_for_player(player_code)
+        return unless player_in_the_room?(player_code)
         return inviter_pick if player_code == inviter_code
         challenger_pick
+    end
+
+    def player_in_the_room?(player_code)
+        player_code == inviter_code || player_code == challenger_code
+    end
+
+    def full?
+        challenger_code.present?
     end
 end

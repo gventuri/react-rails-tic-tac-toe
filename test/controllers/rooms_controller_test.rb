@@ -25,4 +25,32 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :bad_request, "Validation failed: Slug can't be blank"
   end
+
+  test "should join a room as a inviter" do
+    room = Fabricate(:room, challenger_code: nil)
+
+    post room_join_url(room), params: {
+      room: {
+        challenger_code: 'random_player_1'
+      }
+    }
+    assert_response :success
+    assert_equal JSON.parse(response.body)['symbol'], 'x'
+    room.reload
+    assert_equal room.challenger_code, nil
+  end
+
+  test "should join a room as a challenger" do
+    room = Fabricate(:room, challenger_code: nil)
+
+    post room_join_url(room), params: {
+      room: {
+        challenger_code: 'random_player_2'
+      }
+    }
+    assert_response :success
+    assert_equal JSON.parse(response.body)['symbol'], 'o'
+    room.reload
+    assert_equal room.challenger_code, 'random_player_2'
+  end
 end

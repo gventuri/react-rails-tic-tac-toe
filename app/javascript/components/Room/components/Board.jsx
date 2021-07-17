@@ -13,7 +13,7 @@ const CHANNEL_NAME = "MovesChannel";
 
 const Cell = ({ symbol, onChange }) => {
   const onClick = () => {
-    if (!symbol) onChange("x");
+    if (!symbol) onChange();
   };
 
   return (
@@ -42,7 +42,7 @@ Cell.defaultProps = {
   },
 };
 
-const Board = ({ defaultCells }) => {
+const Board = ({ defaultCells, playerSymbol }) => {
   const [cells, setCells] = useState(defaultCells);
   const { roomId } = useParams();
 
@@ -89,7 +89,7 @@ const Board = ({ defaultCells }) => {
       <div className="row">
         {Object.keys(cells).map((key) => (
           <Cell
-            onChange={(newValue) => updateCell(key, newValue)}
+            onChange={() => updateCell(key, playerSymbol)}
             symbol={cells[key]}
             key={key}
           />
@@ -101,6 +101,7 @@ const Board = ({ defaultCells }) => {
 
 Board.propTypes = {
   defaultCells: PropTypes.objectOf(PropTypes.any),
+  playerSymbol: PropTypes.string,
 };
 
 Board.defaultProps = {
@@ -115,6 +116,7 @@ Board.defaultProps = {
     7: null,
     8: null,
   },
+  playerSymbol: "x",
 };
 
 export { Cell };

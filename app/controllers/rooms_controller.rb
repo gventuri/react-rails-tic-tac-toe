@@ -13,9 +13,24 @@ class RoomsController < ApplicationController
     render json: { error: e.message }, status: :bad_request
   end
 
+  def join
+    @room = Room.friendly.find(params[:room_id])
+    player_code = params[:room][:challenger_code]
+
+    return head :bad_request if @room.full? && !@room.player_in_the_room?(player_code)
+
+    @room.update!(join_params) unless @room.player_in_the_room?(player_code)
+
+    render json: { symbol: @room.symbol_for_player(player_code) }, status: :ok
+  end
+
   private
     # Only allow a list of trusted parameters through.
     def create_params
       params.require(:room).permit(:slug, :inviter_code, :inviter_starts)
+    end
+
+    def join_params
+      params.require(:room).permit(:challenger_code)
     end
 end
