@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ActionCableConsumer } from "react-actioncable-provider";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
@@ -7,18 +8,27 @@ import UserToken from "../../../helpers/UserToken";
 // Models
 import Move from "../../../models/Move";
 
-const Cell = ({ symbol, onChange }) => (
-  <div className="col col-4 p-2">
-    <div
-      className={classNames("cell", {
-        [`cell-${symbol}`]: symbol,
-      })}
-      onClick={() => onChange("x")}
-      role="button"
-      tabIndex="0"
-    />
-  </div>
-);
+// Constants
+const CHANNEL_NAME = "MovesChannel";
+
+const Cell = ({ symbol, onChange }) => {
+  const onClick = () => {
+    if (!symbol) onChange("x");
+  };
+
+  return (
+    <div className="col col-4 p-2">
+      <div
+        className={classNames("cell", {
+          [`cell-${symbol}`]: symbol,
+        })}
+        onClick={onClick}
+        role="button"
+        tabIndex="0"
+      />
+    </div>
+  );
+};
 
 Cell.propTypes = {
   symbol: PropTypes.string,
@@ -63,16 +73,29 @@ const Board = ({ defaultCells }) => {
     });
   }, []);
 
+  const handleReceivedMessages = ({ cell_id: cellId, symbol }) => {
+    setCells({
+      ...cells,
+      [cellId]: symbol,
+    });
+  };
+
   return (
-    <div className="row">
-      {Object.keys(cells).map((key) => (
-        <Cell
-          onChange={(newValue) => updateCell(key, newValue)}
-          symbol={cells[key]}
-          key={key}
-        />
-      ))}
-    </div>
+    <>
+      <ActionCableConsumer
+        channel={{ channel: CHANNEL_NAME }}
+        onReceived={handleReceivedMessages}
+      />
+      <div className="row">
+        {Object.keys(cells).map((key) => (
+          <Cell
+            onChange={(newValue) => updateCell(key, newValue)}
+            symbol={cells[key]}
+            key={key}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 
