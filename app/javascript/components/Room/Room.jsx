@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ActionCableConsumer } from "react-actioncable-provider";
 import { Spinner, Alert } from "react-bootstrap";
+import UserToken from "../../helpers/UserToken";
 
 import "./style.scss";
 
 // Components
 import Board from "./components/Board";
 import RoomUrlSharer from "./components/RoomUrlSharer";
-import UserToken from "../../helpers/UserToken";
 
 // Models
 import RoomModel from "../../models/Room";

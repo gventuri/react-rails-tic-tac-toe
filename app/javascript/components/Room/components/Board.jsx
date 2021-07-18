@@ -83,7 +83,10 @@ const Board = ({ defaultCells, playerSymbol }) => {
   return (
     <>
       <ActionCableConsumer
-        channel={{ channel: CHANNEL_NAME, room_id: roomId }}
+        channel={{
+          channel: CHANNEL_NAME,
+          room_id: roomId,
+        }}
         onReceived={handleReceivedMessages}
       />
       <div className="row">
