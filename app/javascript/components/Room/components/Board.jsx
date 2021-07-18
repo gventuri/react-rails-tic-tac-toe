@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { ActionCableConsumer } from "react-actioncable-provider";
 import { useParams } from "react-router-dom";
-import { Button, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import UserToken from "../../../helpers/UserToken";
+
+// Components
+import NextPlayer from "./NextPlayer";
+import WinningPlayer from "./WinningPlayer";
+import RematchButton from "./RematchButton";
+import PlayerSymbol from "./PlayerSymbol";
+import DrawMessage from "./DrawMessage";
 
 // Models
 import Move from "../../../models/Move";
@@ -43,89 +47,6 @@ Cell.defaultProps = {
   symbol: "x",
   onChange: () => {
     console.log("The value of the cell has been changed");
-  },
-};
-
-const WinningPlayer = ({ symbol }) => (
-  <h1>
-    The winner is:{" "}
-    <Image
-      title={`Symbol: ${symbol}`}
-      src={`/assets/choices/${symbol}.png`}
-      width="40"
-      height="40"
-    />{" "}
-    🎉
-  </h1>
-);
-
-WinningPlayer.propTypes = {
-  symbol: PropTypes.string,
-};
-
-WinningPlayer.defaultProps = {
-  symbol: "x",
-};
-
-const NextPlayer = ({ symbol }) => (
-  <div>
-    <b>
-      Current player:{" "}
-      <Image
-        title={`Symbol: ${symbol}`}
-        src={`/assets/choices/${symbol}.png`}
-        width="20"
-        height="20"
-      />
-    </b>
-  </div>
-);
-
-NextPlayer.propTypes = {
-  symbol: PropTypes.string,
-};
-
-NextPlayer.defaultProps = {
-  symbol: "x",
-};
-
-const PlayerSymbol = ({ symbol }) => (
-  <div>
-    <b>
-      Your symbol:{" "}
-      <Image
-        title={`Symbol: ${symbol}`}
-        src={`/assets/choices/${symbol}.png`}
-        width="20"
-        height="20"
-      />
-    </b>
-  </div>
-);
-
-PlayerSymbol.propTypes = {
-  symbol: PropTypes.string,
-};
-
-PlayerSymbol.defaultProps = {
-  symbol: "x",
-};
-
-const DrawMessage = () => <h2>Oh, it's a draw!</h2>;
-
-const RematchButton = ({ onClick }) => (
-  <Button variant="primary" onClick={onClick}>
-    Play again <FontAwesomeIcon icon={faRedo} size="sm" />
-  </Button>
-);
-
-RematchButton.propTypes = {
-  onClick: PropTypes.func,
-};
-
-RematchButton.defaultProps = {
-  onClick: () => {
-    console.log("Rematch!");
   },
 };
 
