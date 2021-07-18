@@ -6,8 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 
 const RoomUrlSharer = () => {
-  const { roomId } = useParams();
-  const roomUrl = `http://localhost:3000/rooms/${roomId}`;
+  const roomUrl = window.location.href;
   const [copied, setCopied] = useState(false);
 
   return (
