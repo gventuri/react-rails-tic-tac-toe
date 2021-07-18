@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ActionCableConsumer } from "react-actioncable-provider";
 import { useParams } from "react-router-dom";
+import { Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import UserToken from "../../../helpers/UserToken";
@@ -42,7 +43,38 @@ Cell.defaultProps = {
   },
 };
 
-const NextPlayer = ({ symbol }) => <b>Next player: {symbol}</b>;
+const WinningPlayer = ({ symbol }) => (
+  <h1>
+    The winner is:{" "}
+    <Image
+      title={`Option: ${symbol}`}
+      src={`/assets/choices/${symbol}.png`}
+      width="40"
+      height="40"
+    />{" "}
+    🎉
+  </h1>
+);
+
+WinningPlayer.propTypes = {
+  symbol: PropTypes.string,
+};
+
+WinningPlayer.defaultProps = {
+  symbol: "x",
+};
+
+const NextPlayer = ({ symbol }) => (
+  <b>
+    Next player:{" "}
+    <Image
+      title={`Option: ${symbol}`}
+      src={`/assets/choices/${symbol}.png`}
+      width="20"
+      height="20"
+    />
+  </b>
+);
 
 NextPlayer.propTypes = {
   symbol: PropTypes.string,
@@ -55,7 +87,29 @@ NextPlayer.defaultProps = {
 const Board = ({ defaultCells, playerSymbol }) => {
   const [cells, setCells] = useState(defaultCells);
   const [nextPlayer, setNextPlayer] = useState("x");
+  const [winner, setWinner] = useState(null);
   const { roomId } = useParams();
+
+  const calculateWinner = () => {
+    const winningCombinations = [
+      [0, 1, 2],
+      [0, 3, 6],
+      [0, 4, 8],
+      [1, 4, 7],
+      [2, 4, 6],
+      [2, 5, 8],
+      [3, 4, 5],
+      [6, 7, 8],
+    ];
+
+    for (const combination of winningCombinations) {
+      const [a, b, c] = combination;
+      if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+        setWinner(cells[a]);
+        break;
+      }
+    }
+  };
 
   const updateNextPlayer = () => {
     const xMoves = Object.values(cells).filter((c) => c === "x").length;
@@ -65,6 +119,7 @@ const Board = ({ defaultCells, playerSymbol }) => {
   };
   useEffect(() => {
     updateNextPlayer();
+    calculateWinner();
   }, [cells]);
 
   const updateCell = (key, value) => {
@@ -113,7 +168,8 @@ const Board = ({ defaultCells, playerSymbol }) => {
         onReceived={handleReceivedMessages}
       />
 
-      <NextPlayer symbol={nextPlayer} />
+      {winner && <WinningPlayer symbol={winner} />}
+      {!winner && <NextPlayer symbol={nextPlayer} />}
       <div className="row">
         {Object.keys(cells).map((key) => (
           <Cell
