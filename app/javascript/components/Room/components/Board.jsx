@@ -9,7 +9,7 @@ import UserToken from "../../../helpers/UserToken";
 import Move from "../../../models/Move";
 
 // Constants
-const CHANNEL_NAME = "MovesChannel";
+const CHANNEL_NAME = "RoomsChannel";
 
 const Cell = ({ symbol, onChange }) => {
   const onClick = () => {
@@ -83,7 +83,7 @@ const Board = ({ defaultCells, playerSymbol }) => {
   return (
     <>
       <ActionCableConsumer
-        channel={{ channel: CHANNEL_NAME }}
+        channel={{ channel: CHANNEL_NAME, room_id: roomId }}
         onReceived={handleReceivedMessages}
       />
       <div className="row">

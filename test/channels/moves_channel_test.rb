@@ -1,7 +1,7 @@
 require "test_helper"
 
-class MovesChannelTest < ActionCable::Channel::TestCase
-  test "subscribes to MovesChanel" do
+class RoomsChannelTest < ActionCable::Channel::TestCase
+  test "subscribes to RoomsChanel" do
     subscribe
     assert subscription.confirmed?
   end

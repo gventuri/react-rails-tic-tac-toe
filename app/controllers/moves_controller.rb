@@ -10,7 +10,7 @@ class MovesController < ApplicationController
   def create
     move = @room.moves.create!(create_params)
 
-    ActionCable.server.broadcast 'moves_channel', JSON.parse(return_details(move))
+    RoomsChannel.broadcast_to @room, JSON.parse(return_details(move))
 
     render json: return_details(move), status: :ok
   rescue ActiveRecord::RecordInvalid => e

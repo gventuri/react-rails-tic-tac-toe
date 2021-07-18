@@ -13,7 +13,7 @@ import UserToken from "../../helpers/UserToken";
 // Models
 import RoomModel from "../../models/Room";
 
-const CHANNEL_NAME = "MovesChannel";
+const CHANNEL_NAME = "RoomsChannel";
 
 const RoomFull = () => (
   <>
@@ -52,7 +52,7 @@ const Room = () => {
   return (
     <>
       <ActionCableConsumer
-        channel={{ channel: CHANNEL_NAME }}
+        channel={{ channel: CHANNEL_NAME, room_id: roomId }}
         onConnected={() => setConnected(true)}
         onDisconnected={() => setConnected(false)}
       />
