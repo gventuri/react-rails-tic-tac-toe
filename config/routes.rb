@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :moves, only: [:index, :create]
 
     post 'join'
+    put 'rematch'
   end
 
   mount ActionCable.server => '/cable'

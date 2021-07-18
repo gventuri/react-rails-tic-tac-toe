@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { ActionCableConsumer } from "react-actioncable-provider";
 import { useParams } from "react-router-dom";
-import { Image } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import UserToken from "../../../helpers/UserToken";
 
 // Models
 import Move from "../../../models/Move";
+import Room from "../../../models/Room";
 
 // Constants
 const CHANNEL_NAME = "RoomsChannel";
@@ -47,7 +50,7 @@ const WinningPlayer = ({ symbol }) => (
   <h1>
     The winner is:{" "}
     <Image
-      title={`Option: ${symbol}`}
+      title={`Symbol: ${symbol}`}
       src={`/assets/choices/${symbol}.png`}
       width="40"
       height="40"
@@ -65,15 +68,17 @@ WinningPlayer.defaultProps = {
 };
 
 const NextPlayer = ({ symbol }) => (
-  <b>
-    Next player:{" "}
-    <Image
-      title={`Option: ${symbol}`}
-      src={`/assets/choices/${symbol}.png`}
-      width="20"
-      height="20"
-    />
-  </b>
+  <div>
+    <b>
+      Current player:{" "}
+      <Image
+        title={`Symbol: ${symbol}`}
+        src={`/assets/choices/${symbol}.png`}
+        width="20"
+        height="20"
+      />
+    </b>
+  </div>
 );
 
 NextPlayer.propTypes = {
@@ -84,10 +89,51 @@ NextPlayer.defaultProps = {
   symbol: "x",
 };
 
+const PlayerSymbol = ({ symbol }) => (
+  <div>
+    <b>
+      Your symbol:{" "}
+      <Image
+        title={`Symbol: ${symbol}`}
+        src={`/assets/choices/${symbol}.png`}
+        width="20"
+        height="20"
+      />
+    </b>
+  </div>
+);
+
+PlayerSymbol.propTypes = {
+  symbol: PropTypes.string,
+};
+
+PlayerSymbol.defaultProps = {
+  symbol: "x",
+};
+
+const DrawMessage = () => <h2>Oh, it's a draw!</h2>;
+
+const RematchButton = ({ onClick }) => (
+  <Button variant="primary" onClick={onClick}>
+    Play again <FontAwesomeIcon icon={faRedo} size="sm" />
+  </Button>
+);
+
+RematchButton.propTypes = {
+  onClick: PropTypes.func,
+};
+
+RematchButton.defaultProps = {
+  onClick: () => {
+    console.log("Rematch!");
+  },
+};
+
 const Board = ({ defaultCells, playerSymbol }) => {
   const [cells, setCells] = useState(defaultCells);
   const [nextPlayer, setNextPlayer] = useState("x");
   const [winner, setWinner] = useState(null);
+  const [isOver, setIsOver] = useState(false);
   const { roomId } = useParams();
 
   const calculateWinner = () => {
@@ -111,6 +157,11 @@ const Board = ({ defaultCells, playerSymbol }) => {
     }
   };
 
+  const calculateIsOver = () => {
+    if (Object.values(cells).filter((c) => c === null).length === 0)
+      setIsOver(true);
+  };
+
   const updateNextPlayer = () => {
     const xMoves = Object.values(cells).filter((c) => c === "x").length;
     const oMoves = Object.values(cells).filter((c) => c === "o").length;
@@ -120,6 +171,7 @@ const Board = ({ defaultCells, playerSymbol }) => {
   useEffect(() => {
     updateNextPlayer();
     calculateWinner();
+    calculateIsOver();
   }, [cells]);
 
   const updateCell = (key, value) => {
@@ -151,12 +203,18 @@ const Board = ({ defaultCells, playerSymbol }) => {
     });
   }, []);
 
-  const handleReceivedMessages = ({ cell_id: cellId, symbol }) => {
+  const handleReceivedMessages = ({ rematch, cell_id: cellId, symbol }) => {
+    console.log("Hello there...", { rematch, cell_id: cellId, symbol });
+
+    if (rematch) return window.location.reload();
+
     setCells({
       ...cells,
       [cellId]: symbol,
     });
   };
+
+  const doRematch = () => Room.rematch({ slug: roomId });
 
   return (
     <>
@@ -168,8 +226,19 @@ const Board = ({ defaultCells, playerSymbol }) => {
         onReceived={handleReceivedMessages}
       />
 
-      {winner && <WinningPlayer symbol={winner} />}
-      {!winner && <NextPlayer symbol={nextPlayer} />}
+      <div className="my-3">
+        {!winner && !isOver && (
+          <>
+            <PlayerSymbol symbol={playerSymbol} />
+            <NextPlayer symbol={nextPlayer} />
+          </>
+        )}
+
+        {winner && <WinningPlayer symbol={winner} />}
+        {!winner && isOver && <DrawMessage />}
+        {(winner || isOver) && <RematchButton onClick={doRematch} />}
+      </div>
+
       <div className="row">
         {Object.keys(cells).map((key) => (
           <Cell

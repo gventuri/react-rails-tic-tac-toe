@@ -16,6 +16,10 @@ class Room {
       })
       .then((res) => res.data);
   }
+
+  static rematch({ slug }) {
+    return axios.put(`/rooms/${slug}/rematch`);
+  }
 }
 
 export default Room;

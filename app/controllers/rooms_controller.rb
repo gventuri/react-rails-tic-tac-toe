@@ -23,6 +23,15 @@ class RoomsController < ApplicationController
     render json: { symbol: @room.symbol_for_player(player_code) }, status: :ok
   end
 
+  def rematch
+    @room = Room.friendly.find(params[:room_id])
+    return head :unauthorized unless @room.over?
+
+    @room.rematch!
+    RoomsChannel.broadcast_to @room, { rematch: true }
+    head :ok
+  end
+
   private
     # Only allow a list of trusted parameters through.
     def create_params

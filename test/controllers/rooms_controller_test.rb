@@ -53,4 +53,36 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
     room.reload
     assert_equal room.challenger_code, 'random_player_2'
   end
+
+  test "should restart a match that is over" do
+    room = Fabricate(:room)
+    (0..8).each do |i|
+      room.moves.create!(
+        cell_id: i,
+        player_code: "random_player_#{(i % 2) + 1}"
+      )
+    end
+
+    put room_rematch_url(room)
+    assert_response :success
+  end
+
+  test "should restart a match with a winner" do
+    room = Fabricate(:room)
+    room.moves.create!( cell_id: 0, player_code: "random_player_1")
+    room.moves.create!( cell_id: 3, player_code: "random_player_2")
+    room.moves.create!( cell_id: 1, player_code: "random_player_1")
+    room.moves.create!( cell_id: 4, player_code: "random_player_2")
+    room.moves.create!( cell_id: 2, player_code: "random_player_1")
+
+    put room_rematch_url(room)
+    assert_response :success
+  end
+
+  test "should not restart a match that is NOT over" do
+    room = Fabricate(:room)
+
+    put room_rematch_url(room)
+    assert_response :unauthorized
+  end
 end
