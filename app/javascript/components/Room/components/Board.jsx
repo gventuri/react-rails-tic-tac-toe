@@ -42,11 +42,34 @@ Cell.defaultProps = {
   },
 };
 
+const NextPlayer = ({ symbol }) => <b>Next player: {symbol}</b>;
+
+NextPlayer.propTypes = {
+  symbol: PropTypes.string,
+};
+
+NextPlayer.defaultProps = {
+  symbol: "x",
+};
+
 const Board = ({ defaultCells, playerSymbol }) => {
   const [cells, setCells] = useState(defaultCells);
+  const [nextPlayer, setNextPlayer] = useState("x");
   const { roomId } = useParams();
 
+  const updateNextPlayer = () => {
+    const xMoves = Object.values(cells).filter((c) => c === "x").length;
+    const oMoves = Object.values(cells).filter((c) => c === "o").length;
+
+    setNextPlayer(xMoves <= oMoves ? "x" : "o");
+  };
+  useEffect(() => {
+    updateNextPlayer();
+  }, [cells]);
+
   const updateCell = (key, value) => {
+    if (nextPlayer !== playerSymbol) return;
+
     setCells({
       ...cells,
       [key]: value,
@@ -89,6 +112,8 @@ const Board = ({ defaultCells, playerSymbol }) => {
         }}
         onReceived={handleReceivedMessages}
       />
+
+      <NextPlayer symbol={nextPlayer} />
       <div className="row">
         {Object.keys(cells).map((key) => (
           <Cell

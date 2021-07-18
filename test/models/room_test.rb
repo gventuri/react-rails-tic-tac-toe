@@ -38,4 +38,15 @@ class RoomTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "should identify the current player" do
+    room = Fabricate(:room)
+    assert room.player_moves_next?('random_player_1')
+
+    room.moves.create(cell_id: 0, player_code: 'random_player_1')
+    room.player_moves_next?('random_player_2')
+
+    room.moves.create(cell_id: 1, player_code: 'random_player_2')
+    room.player_moves_next?('random_player_1')
+  end
 end
